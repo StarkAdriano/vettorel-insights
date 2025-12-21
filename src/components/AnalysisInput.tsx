@@ -20,13 +20,18 @@ export function AnalysisInput({ currentPrice, onAnalyze, isAnalyzing }: Analysis
   };
 
   const handleAnalyze = () => {
-    const price = parseFloat(priceInput);
-    if (!isNaN(price) && price > 0) {
+    // Parse with locale support (handle comma as decimal separator)
+    const normalizedInput = priceInput.replace(',', '.');
+    const price = parseFloat(normalizedInput);
+    if (!isNaN(price) && price > 0.5 && price < 2) {
+      // EURUSD typically ranges between 0.8 and 1.6
       onAnalyze(price);
     }
   };
 
-  const isValidPrice = priceInput && !isNaN(parseFloat(priceInput)) && parseFloat(priceInput) > 0;
+  const normalizedInput = priceInput.replace(',', '.');
+  const parsedPrice = parseFloat(normalizedInput);
+  const isValidPrice = priceInput && !isNaN(parsedPrice) && parsedPrice > 0.5 && parsedPrice < 2;
 
   return (
     <div className="card-trading">
