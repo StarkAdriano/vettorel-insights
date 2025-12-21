@@ -1,0 +1,17 @@
+{
+  "name": "Operações Institucionais Vettorel",
+  "short_name": "Vettorel",
+  "description": "Sistema institucional semi-automatizado para operações EURUSD",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0e1117",
+  "theme_color": "#0e1117",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64",
+      "type": "image/x-icon"
+    }
+  ]
+}
