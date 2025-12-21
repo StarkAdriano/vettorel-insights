@@ -1,11 +1,11 @@
 import { useEffect, useRef, memo } from 'react';
+import { ExternalLink } from 'lucide-react';
 
 interface TradingViewChartProps {
   symbol?: string;
-  interval?: string;
 }
 
-function TradingViewChartComponent({ symbol = 'FX:EURUSD', interval = '60' }: TradingViewChartProps) {
+function TradingViewChartComponent({ symbol = 'FX:EURUSD' }: TradingViewChartProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -14,77 +14,69 @@ function TradingViewChartComponent({ symbol = 'FX:EURUSD', interval = '60' }: Tr
     // Clear previous content
     containerRef.current.innerHTML = '';
 
-    const script = document.createElement('script');
-    script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js';
-    script.type = 'text/javascript';
-    script.async = true;
-    script.innerHTML = JSON.stringify({
-      autosize: true,
-      symbol: symbol,
-      interval: interval,
-      timezone: 'America/Sao_Paulo',
-      theme: 'dark',
-      style: '1',
-      locale: 'br',
-      enable_publishing: false,
-      backgroundColor: 'rgba(14, 17, 23, 1)',
-      gridColor: 'rgba(42, 46, 57, 0.3)',
-      hide_top_toolbar: false,
-      hide_legend: false,
-      save_image: false,
-      calendar: false,
-      hide_volume: true,
-      support_host: 'https://www.tradingview.com',
-      container_id: 'tradingview-chart',
-    });
-
     const widgetContainer = document.createElement('div');
     widgetContainer.className = 'tradingview-widget-container';
     widgetContainer.style.height = '100%';
     widgetContainer.style.width = '100%';
 
     const widgetInner = document.createElement('div');
-    widgetInner.id = 'tradingview-chart';
+    widgetInner.id = `tradingview_${Date.now()}`;
     widgetInner.style.height = '100%';
     widgetInner.style.width = '100%';
 
+    const script = document.createElement('script');
+    script.src = 'https://s3.tradingview.com/tv.js';
+    script.async = true;
+    script.onload = () => {
+      if (typeof (window as any).TradingView !== 'undefined') {
+        new (window as any).TradingView.widget({
+          autosize: true,
+          symbol: symbol,
+          interval: '60',
+          timezone: 'America/Sao_Paulo',
+          theme: 'dark',
+          style: '1',
+          locale: 'br',
+          toolbar_bg: '#0e1117',
+          enable_publishing: false,
+          hide_top_toolbar: false,
+          hide_legend: false,
+          save_image: false,
+          container_id: widgetInner.id,
+          hide_volume: true,
+          backgroundColor: '#0e1117',
+        });
+      }
+    };
+
     widgetContainer.appendChild(widgetInner);
-    widgetContainer.appendChild(script);
     containerRef.current.appendChild(widgetContainer);
+    document.head.appendChild(script);
 
     return () => {
       if (containerRef.current) {
         containerRef.current.innerHTML = '';
       }
     };
-  }, [symbol, interval]);
+  }, [symbol]);
 
   return (
     <div className="card-trading overflow-hidden">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold">Gráfico FX:EURUSD</h2>
-        <div className="flex gap-2">
-          {['15', '60', '240', 'D'].map((tf) => (
-            <button
-              key={tf}
-              className={`px-3 py-1 text-xs rounded font-medium transition-colors ${
-                interval === tf 
-                  ? 'bg-primary text-primary-foreground' 
-                  : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
-              }`}
-              onClick={() => {
-                // Note: This would require state management to change interval
-                // For now it's display-only
-              }}
-            >
-              {tf === '15' ? 'M15' : tf === '60' ? 'H1' : tf === '240' ? 'H4' : 'D1'}
-            </button>
-          ))}
-        </div>
+        <h2 className="text-lg font-semibold">Gráfico {symbol}</h2>
+        <a 
+          href={`https://www.tradingview.com/chart/?symbol=${symbol}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-1 text-xs text-primary hover:underline"
+        >
+          <span>Abrir no TradingView</span>
+          <ExternalLink className="w-3 h-3" />
+        </a>
       </div>
       <div 
         ref={containerRef} 
-        className="h-[300px] md:h-[400px] lg:h-[450px] rounded-lg overflow-hidden"
+        className="h-[300px] md:h-[400px] lg:h-[450px] rounded-lg overflow-hidden bg-background"
       />
     </div>
   );
