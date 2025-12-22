@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Header } from '@/components/Header';
 import { PricePanel } from '@/components/PricePanel';
 import { AnalysisInput } from '@/components/AnalysisInput';
@@ -14,7 +14,7 @@ import { toast } from 'sonner';
 import { Helmet } from 'react-helmet';
 
 const Index = () => {
-  const { priceData, isLoading, error, refreshPrice } = useEURUSDPrice();
+  const { priceData, isLoading, error, refreshPrice, updatePriceFromChart } = useEURUSDPrice();
   const { trades, addTrade, updateTrade, deleteTrade, getStats } = useTradeHistory();
   const [analysis, setAnalysis] = useState<SetupAnalysis | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -69,6 +69,11 @@ const Index = () => {
     toast.success('Trade removido');
   }, [deleteTrade]);
 
+  // Handle price updates from TradingView chart
+  const handleChartPriceUpdate = useCallback((price: number) => {
+    updatePriceFromChart(price);
+  }, [updatePriceFromChart]);
+
   return (
     <>
       <Helmet>
@@ -85,6 +90,9 @@ const Index = () => {
         <Header />
         
         <main className="container py-4 md:py-6 space-y-4 md:space-y-6">
+          {/* TradingView Chart - First for price reference */}
+          <TradingViewChart onPriceUpdate={handleChartPriceUpdate} />
+
           {/* Price Panel and Analysis Input */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
             <PricePanel 
@@ -102,9 +110,6 @@ const Index = () => {
 
           {/* Setup Status */}
           <SetupStatus analysis={analysis} />
-
-          {/* TradingView Chart */}
-          <TradingViewChart />
 
           {/* Risk Management and History */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
