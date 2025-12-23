@@ -100,6 +100,7 @@ const Index = () => {
               isLoading={isLoading}
               error={error}
               onRefresh={refreshPrice}
+              onPriceUpdate={updatePriceFromChart}
             />
             <AnalysisInput 
               currentPrice={priceData?.price || null}
