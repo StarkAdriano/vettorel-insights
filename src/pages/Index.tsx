@@ -6,6 +6,7 @@ import { SetupStatus } from '@/components/SetupStatus';
 import { TradingViewChart } from '@/components/TradingViewChart';
 import { RiskManagement } from '@/components/RiskManagement';
 import { TradeHistory } from '@/components/TradeHistory';
+import { ProPlanSection } from '@/components/ProPlanSection';
 import { useEURUSDPrice } from '@/hooks/useEURUSDPrice';
 import { useTradeHistory } from '@/hooks/useTradeHistory';
 import { analyzeSetup } from '@/lib/setupAnalysis';
@@ -126,6 +127,9 @@ const Index = () => {
             />
           </div>
         </main>
+
+        {/* Plano PRO Section */}
+        <ProPlanSection />
 
         <footer className="border-t border-border/50 py-4 mt-8">
           <div className="container text-center text-xs text-muted-foreground">
