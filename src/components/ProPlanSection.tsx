@@ -104,15 +104,29 @@ export function ProPlanSection() {
           </div>
 
           {/* CTA */}
-          <div className="text-center pt-4">
+          <div className="text-center pt-4 space-y-6">
             <Button 
               size="lg" 
               className="text-lg px-8 py-6 h-auto font-semibold"
-              onClick={() => window.open('https://pay.hotmart.com/seu-link', '_blank')}
+              onClick={() => window.open('https://buy.stripe.com/5kQ28qdeR0pg5Hz1jXeQM00', '_blank')}
             >
               Assinar Plano PRO — R$ 497/mês
             </Button>
-            <p className="text-sm text-muted-foreground mt-4">
+            
+            {/* PIX Option */}
+            <div className="bg-muted/30 rounded-lg p-4 border border-border/50 max-w-md mx-auto">
+              <p className="text-sm font-medium text-foreground mb-2">
+                Ou pague via PIX:
+              </p>
+              <code className="text-xs bg-background/50 px-3 py-2 rounded border border-border/50 block break-all select-all">
+                ea9f68ed-2b08-4fe0-a420-a551971ba8be
+              </code>
+              <p className="text-xs text-muted-foreground mt-2">
+                Envie o comprovante para ativar sua assinatura
+              </p>
+            </div>
+            
+            <p className="text-sm text-muted-foreground">
               Serviço profissional focado em disciplina, leitura de mercado e tomada de decisão institucional.
             </p>
           </div>
