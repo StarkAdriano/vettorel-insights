@@ -1,9 +1,15 @@
 import { SetupAnalysis, TradeDirection } from '@/types/trading';
 
-// Institutional levels for EURUSD (updated for current market ~1.17)
+// Institutional levels for EURUSD (updated for current market ~1.04)
 const INSTITUTIONAL_LEVELS = {
-  supports: [1.1200, 1.1300, 1.1400, 1.1500, 1.1600, 1.1650, 1.1700, 1.1750, 1.1800],
-  resistances: [1.1250, 1.1350, 1.1450, 1.1550, 1.1650, 1.1720, 1.1780, 1.1850, 1.1900],
+  supports: [
+    1.0200, 1.0250, 1.0300, 1.0350, 1.0400, 1.0450, 1.0500, 1.0550, 1.0600,
+    1.0650, 1.0700, 1.0750, 1.0800, 1.0850, 1.0900, 1.0950, 1.1000
+  ],
+  resistances: [
+    1.0250, 1.0300, 1.0350, 1.0400, 1.0450, 1.0500, 1.0550, 1.0600, 1.0650,
+    1.0700, 1.0750, 1.0800, 1.0850, 1.0900, 1.0950, 1.1000, 1.1050
+  ],
 };
 
 // Default pip distance for stop loss (in pips)
