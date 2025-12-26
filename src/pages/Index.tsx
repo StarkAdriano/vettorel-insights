@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { Header } from '@/components/Header';
-import { PricePanel } from '@/components/PricePanel';
+
 import { AnalysisInput } from '@/components/AnalysisInput';
 import { SetupStatus } from '@/components/SetupStatus';
 import { TradingViewChart } from '@/components/TradingViewChart';
@@ -94,21 +94,12 @@ const Index = () => {
           {/* TradingView Chart - First for price reference */}
           <TradingViewChart onPriceUpdate={handleChartPriceUpdate} />
 
-          {/* Price Panel and Analysis Input */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
-            <PricePanel 
-              priceData={priceData}
-              isLoading={isLoading}
-              error={error}
-              onRefresh={refreshPrice}
-              onPriceUpdate={updatePriceFromChart}
-            />
-            <AnalysisInput 
-              currentPrice={priceData?.price || null}
-              onAnalyze={handleAnalyze}
-              isAnalyzing={isAnalyzing}
-            />
-          </div>
+          {/* Analysis Input */}
+          <AnalysisInput 
+            currentPrice={priceData?.price || null}
+            onAnalyze={handleAnalyze}
+            isAnalyzing={isAnalyzing}
+          />
 
           {/* Setup Status */}
           <SetupStatus analysis={analysis} />
